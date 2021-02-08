@@ -64,4 +64,4 @@ The `text` property of the Object, is the text that you will see inside the Bubb
 The `value` property of the Object, is the Radius of the Bubble.
 
 Here is a visual example of how text and value show up:
-![Bubble Chart Example](https://unevencoconut.github.com/images/example.png)
+![Bubble Chart Example](example.png)
