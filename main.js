@@ -148,11 +148,3 @@ class D3BubbleChart extends D3Chart{
         return
     };
 };
-
-
-// Example Use
-// let bubbleone = new D3BubbleChart(template,{
-//     container:'#d3-bubblechart-01',
-//     height: 300,
-//     width: 1200,
-// });
