@@ -54,7 +54,7 @@ const bubbleChart = ((data,container,options)=>{
     class D3BubbleChart extends D3Chart {
         constructor(data, ...options){
             super(data, ...options);
-            let [{bubblelimit,bubblecolor}] = options;
+            let [,{bubblelimit,bubblecolor}] = options;
 
             this.bubblelimit = bubblelimit ?? 10;
             this.bubblecolor = bubblecolor ?? '#42a7f5';
