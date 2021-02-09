@@ -7,14 +7,13 @@ At the time of this writing, I currently only have a Bubble Chart built out, I h
 ---
 ### Quick Description
 - Add `main.js` script however you'd like.
-- Create instance `const = new D3BubbleChart(data{options})`
-- Instance Handles the rest
+- Call Bubble Chart Function with Arguments/Parameters `D3BubbleChart(data,container,{options})`
 
 ---
 ### Detailed Descriptions
 **STEP ONE**: Add `main.js` script
 ```html
-<script src="main.js"></script>
+    <script src="main.js"></script>
 ```
 <span style="color:#6c757d!important">
 I recommend applying it before the closing body tag. But hey, you do you boo boo.
@@ -24,38 +23,40 @@ Some possible questions:
 + Can I use Async or Defer Attributes: Sure
 + Can I break out the D3Chart and D3BubbleChart: Yep, but D3Bubble Chart extends D3Chart, so be sure to break out accordingly.
 
-**STEP TWO**: Create Instance
+**STEP TWO**: Call BubbleChart Function
 
-Once the script is added, you'll need to createa new instance, once the Instace is called it handles the rest. Here is a general example:
+Once the script is added, there is a Function that creates a new instance of a Bubble Chart on each Function Call.
 
 ```javascript
-const myBubbleChart = new BubbleChart(data,{options})
+    BubbleChart(data,container,{options})
 
-// Data: This will be a JSON Object you provide
-// Options: Settings you will provide
+    // Data: This will be a JSON Object you provide
+    // Container: The ID of the HTML Element to place the Chart in.
+    // Options: Optional Parameters for the Chart
 ```
 
 ### The `data` argument (required)
-This is your Bubble Chart Data that you'd like to display.
+This is the Chart Data that will be displayed.
 It requires a JSON string that is an Array of Objects.
 
+For the Bubble Chart Specifically, it looks like this.
 **Example:**
 
 ```json
-[
-    {
-        "text":"some words",
-        "value":100
-    },
-    {
-        "text":"Other words",
-        "value":80
-    },
-    {
-        "text":"more words",
-        "value":200
-    }
-]
+    [
+        {
+            "text":"some words",
+            "value":100
+        },
+        {
+            "text":"Other words",
+            "value":80
+        },
+        {
+            "text":"more words",
+            "value":200
+        }
+    ]
 ```
 
 Each Object, represents a single bubble in your bubblechart.
@@ -67,38 +68,36 @@ The `value` property of the Object, is the Radius of the Bubble.
 Here is a visual example of how text and value show up:
 ![Bubble Chart Example](example.png)
 
+
+### The `Container` argument (required)
+The ID of the Element you'd like to place the Chart inside.
+
 #### Few Gotcha's and Notes for the Data Argument
 + The Key of each Object is not relevant. (i.e. "Text" and "value" do not need to be named as such. They can be named as anything)
 + Key Order *is relevant*. (i.e. Bubble Text must come first, Bubble Value must come second)
-+ JSON is the only thing it accepts. I don't believe I will be changing it to accept anything else. But, the `_parsedata` method (line 18) of the `class D3Chart` is where it handles the JSON object. Feel free to hack and bend to your will.
++ JSON is the only thing it accepts. I don't believe I will be changing it to accept anything else. But, the `_parsedata` method (line 35) of the `class D3Chart` is where it handles the JSON object. Feel free to hack and bend to your will.
 
 
 ### The Options Parameters
 Kitchen Sink Example of Options being set:
 ```javascript
-const bubbleone = new D3BubbleChart(data,{
-    container:'#d3-bubblechart-01',
-    height: 300,
-    width: 1200,
-    bubblelimit: 20
-});
+    D3BubbleChart(data,container,{
+        height: 300,
+        width: 1200,
+        bubblelimit: 20,
+        bubblecolor: '#FF00AA'
+    });
 ```
 
-Options Breakdown:
-+ Container ( <mark>Required</mark> )
-    + Target Container that you'd like to place the BubbleChart in. It uses a Query Selector. So an Element ID or Element Class is both ok.
-
-        <span style="color:#6c757d!important">
-        I recommend using an Element ID
-        </span>
-
-+ Height ( Not Required )
+Options ( Not Required ):
++ height:Int ( Default 500 )
     + The Height, in Pixels, that you'd like the Bubble Chart to be. Defaults to 500px.
-+ Width ( Not Required )
++ width: Int ( Default 1200 )
     + The Width, in Pixels, that you'd like the Bubble Chart to be. Defaults to 1200px.
-+ Bubblelimit ( Not Required )
++ bubblelimit ( Default 10 )
     + The number of Bubbles you'd like to display. Default is set to 10.
-
++ bubblecolor ( Default #42a7f5 )
+    + Accepts HEX and Plain Text values. (i.e Red)
 
 Note: You might be thinking, wow, that's not a lot of options. YEP. I'll be adding them as I need them, so more will be coming, for sure. But, remember, this isn't intended to do everything.
 
@@ -108,6 +107,6 @@ Note: You might be thinking, wow, that's not a lot of options. YEP. I'll be addi
     + I apologize in advance if you cant get this to work. This is definitely catered to my specific needs with where I'm at currently. I'm hoping I wrote it in a way that is easy to read though, so you're welcome to Fork and adjust.
 + I can't seem to change ( insert option here ), what am I missing?
     + You're likely not missing anything. I probably didn't build it into the options. Don't nuke it and pull your hair out. If its not plain to see in the options, then its not a feature.
-    + At the time of this writing, yes, even the colors currently cant be changed. But that is something I'm about to update.
+    + ~~At the time of this writing, yes, even the colors currently cant be changed. But that is something I'm about to update.~~
 + You suck at Code and probably cooking.
     + Probably, please Like and Subscribe.
