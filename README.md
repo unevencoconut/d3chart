@@ -85,7 +85,9 @@ Kitchen Sink Example of Options being set:
         height: 300,
         width: 1200,
         bubblelimit: 20,
-        bubblecolor: '#FF00AA'
+        bubblecolor: '#FF00AA',
+        textthreshold: 2,
+        textcolor: '#000000'
     });
 ```
 
@@ -98,8 +100,10 @@ Options ( Not Required ):
     + The number of Bubbles you'd like to display. Default is set to 10.
 + bubblecolor ( Default #42a7f5 )
     + Accepts HEX and Plain Text values. (i.e Red)
-
-Note: You might be thinking, wow, that's not a lot of options. YEP. I'll be adding them as I need them, so more will be coming, for sure. But, remember, this isn't intended to do everything.
++ textthreshold ( Default 2 )
+    + The cut off point on when a Bubble should display text or not.
++ textcolor ( Default #FFFFFF )
+    + Accepts HEX and Plain Text values. (i.e Red)
 
 ## General Footnotes and Gotchas
 ---

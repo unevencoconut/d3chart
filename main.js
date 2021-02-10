@@ -54,15 +54,19 @@ const bubbleChart = ((data,container,options)=>{
     class D3BubbleChart extends D3Chart {
         constructor(data, ...options){
             super(data, ...options);
-            let [,{bubblelimit,bubblecolor}] = options;
+            let [,{bubblelimit,bubblecolor,texttreshold,textcolor}] = options;
 
             this.bubblelimit = bubblelimit ?? 10;
-            this.bubblecolor = bubblecolor ?? '#42a7f5';
+            this.bubblecolor = bubblecolor ?? "#42a7f5";
+            this.texttreshold = texttreshold ?? 2;
+            this.textcolor = textcolor ?? "#FFFFFF";
+
             this.data = this._bubbledata();
             this.radius = this._radius();
             this.scale = this._scale();
             this.circles = this._circles();
             this.text = this._text();
+            this.tooltip = this._tooltip();
             this._simulation();
         };
 
@@ -83,20 +87,21 @@ const bubbleChart = ((data,container,options)=>{
         };
 
         _text(){
-            let { data, scale, svg } = this;
+            let { data, scale, svg, texttreshold, textcolor } = this;
             let { max } = this.radius;
-
+            
             let text = svg.selectAll("text")
                             .data(data)
                             .enter()
                             .append("text")
-                                .attr('font-size', 12)
-                                .style('text-transform','uppercase')
-                                .style('text-anchor', 'middle')
-                                .style('font-family','Roboto')
-                                .attr("fill","white")
+                                .attr("font-size", "12")
+                                .style("text-transform","uppercase")
+                                .style("text-anchor", "middle")
+                                .style("font-family","Roboto")
+                                .style("pointer-events","none")
+                                .attr("fill",textcolor)
                                 .text(function(d){
-                                    return scale(d.radius) >= scale(max)/3 ? d.text : null
+                                        return scale(d.radius) >= scale(max)/texttreshold ? d.text : null
                                     })
 
             return this.text = text;
@@ -129,7 +134,7 @@ const bubbleChart = ((data,container,options)=>{
                             .enter()
                             .append("circle")
                                 .attr("fill",bubblecolor)
-                                .attr("r", d => { return scale(d.radius) } )
+                                .attr("r", d => { return scale(d.radius) } );
 
             return circles
         };
@@ -153,6 +158,62 @@ const bubbleChart = ((data,container,options)=>{
                                 .attr("x", function(d) { return d.x = Math.max(scale(d.radius), Math.min(width - scale(d.radius), d.x)); })
                                 .attr("y", function(d) { return d.y = Math.max(scale(d.radius), Math.min(height - scale(d.radius), d.y)) + 3; });
                         });
+
+            return
+        };
+
+        _tooltip(){
+            let { container, circles } = this;
+
+            let tooltip = d3.select(container)
+                        .append("div")
+                        .style("opacity", "0")
+                        .attr("class", "d3-bubblechart-tooltip")
+                        .style("background-color", "white")
+                        .style("border-width", "2px")
+                        .style("padding", "5px");
+
+            let mouseover = function(e,d) {
+
+                tooltip
+                    .style("opacity", "1")
+
+                return
+            };
+
+            let mousemove = function(e,d) {
+
+                tooltip
+                    .html(`
+                        <div><b>Keyword:</b> ${d.text}</div>
+                        <div><b>Count:</b> ${d.radius}</div>
+                    `)
+                    .style("pointer-events","none")
+                    .style("position","absolute")
+                    .style("top", ()=>{
+                        let y = d3.pointer(e)[1] + -70;
+                        return y + "px"
+                    })
+                    .style("left", ()=>{
+                        let x = d3.pointer(e)[0];
+                        return x + "px"
+                    });
+
+                return
+            };
+
+            let mouseout = function(e,d) {
+
+                tooltip
+                    .style("opacity","0")
+
+                return
+            };
+
+            circles
+                .on("mouseover", mouseover)
+                .on("mousemove", mousemove)
+                .on("mouseout", mouseout);
 
             return
         };
